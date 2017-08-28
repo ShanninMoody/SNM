@@ -1,0 +1,48 @@
+---
+title: "SNM_Datawrangling"
+author: SNM
+date: August 28, 2017
+output: html_document
+---
+
+```{r, load dataset}
+# read in data set, make sure pacckage 'haven' is loaded
+Dataset_08282017_SDRG_SNMThesis <- read_sav("~/GITHUB/DataSets/Databases_SDRG/Dataset_08282017_SDRG_SNMThesis.sav") 
+
+```
+
+```{r}
+DF<- Dataset_08282017_SDRG_SNMThesis
+```
+
+```{r, set up small dataset}
+DF_small<- DF %>%
+            select(ID = DMID, Race = TRACE5, Sex = TGEND5, Cortisol = TDPGML7, Time = tubenum7)
+```
+
+```{r, windsorize}
+m1<-mean(DF_small$Cortisol, na.rm=TRUE) + 3*sd(DF_small$Cortisol, na.rm=TRUE)
+DF_small$Cortisol[DF_small$Cortisol>m1]<-m1
+```
+
+```{r}
+DFS<-DF_small
+DFS$Time[DFS$Time == 5]<-1
+DFS$Time[DFS$Time == 9]<-1
+DFS$Time[DFS$Time == 6]<-2
+DFS$Time[DFS$Time == 10]<-2
+DFS$Time[DFS$Time == 7]<-3
+DFS$Time[DFS$Time == 11]<-3
+DFS$Time[DFS$Time == 8]<-4
+DFS$Time[DFS$Time == 12]<-4
+
+DFS$Time
+```
+
+
+
+
+```{r}
+DF_small$Cortisol<-log(DF_small$Cortisol)
+```
+

@@ -1,0 +1,32 @@
+---
+title: "SNM_Datavis"
+output: html_document
+---
+# Data Visualization
+
+## Is the Data Normal?
+```{r, include=TRUE}
+vis_dat(DF_small)
+```
+
+```{r, include=TRUE}
+DF_small %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(Cortisol, color=Race)) + 
+           geom_freqpoly(binwidth=0.5, size = 1.5) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2"))
+```
+
+## How does Cortisol change over time?
+```{r, include=TRUE}
+DFS %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(Time, Cortisol)) + 
+           stat_summary(fun.y=mean, geom="line", size = 2, aes(color=Race)) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2"))
+```
+
