@@ -1,0 +1,54 @@
+---
+title: "SDRG Analysis"
+author: "Andrew Dismukes"
+date: "September 5, 2017"
+output: html_document
+---
+
+## What is the base model for cortisol slope?
+
+```{r, include=TRUE}
+
+M8<-lmer(Cort5 ~ Time5*Race + (Time5:Race|ID),
+		data=DF_SRA1)
+
+sjt.lmer(M8)
+```
+
+## What about adding income?
+
+```{r, include=TRUE}
+
+M9<-lmer(Cort5 ~ Time5*Race*Income5 + Time5_sq*Race*Income5 + Sex + CAGE5 + (Time5 + Time5_sq|ID),
+		data=DF_SRA1)
+
+
+M10<-lmer(Cort7 ~ Time7*Race*Income7 + Time7_sq*Race*Income7 + Sex + CAGE7 + (Time7 + Time7_sq|ID),
+		data=DF_SRA1)
+
+
+
+sjt.lmer(M9, 
+         show.icc=TRUE, 
+         show.re.var = FALSE, 
+         emph.p = TRUE,
+         show.aic = TRUE,
+         show.aicc = TRUE,
+         show.header = TRUE,
+         show.ci=TRUE,
+         string.dv = "Cortisol")
+         
+         
+sjt.lmer(M10, 
+         show.icc=TRUE, 
+         show.re.var = FALSE, 
+         emph.p = TRUE,
+         show.aic = TRUE,
+         show.aicc = TRUE,
+         show.header = TRUE,
+         show.ci=TRUE,
+         string.dv = "Cortisol")
+
+
+```
+

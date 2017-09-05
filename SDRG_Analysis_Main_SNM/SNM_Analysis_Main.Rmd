@@ -1,6 +1,10 @@
 ---
 title: "SDRG Analysis"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: spacelab
 ---
 
 
@@ -11,7 +15,7 @@ knitr::opts_chunk$set(
                       warning=FALSE, 
                       message=FALSE, 
                       include=FALSE, 
-                      cache=TRUE, 
+                      cache=FALSE, 
                       fig.width=8, 
                       fig.height=6)
 library(tidyverse)
@@ -37,6 +41,10 @@ library(visdat)
 ```
 
 ```{r, child = "SNM_Datavis.Rmd"}
+
+```
+
+```{r, child="SNM_Analysis.Rmd"}
 
 ```
 

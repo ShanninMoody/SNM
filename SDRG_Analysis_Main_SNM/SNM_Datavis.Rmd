@@ -4,29 +4,109 @@ output: html_document
 ---
 # Data Visualization
 
-## Is the Data Normal?
+
+
+## What do we want to look at?
+
+Income and Cortisol Slope and Education and Cortisol Slope
+
+## Let's Start with the Variable Distributions
+##For income 5:
 ```{r, include=TRUE}
-vis_dat(DF_small)
+DF_SRA1 %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(Income5, color=Race)) + 
+           geom_freqpoly(binwidth=2000, size = 1.5) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2"))
 ```
 
+## For income 7:
 ```{r, include=TRUE}
-DF_small %>%
+DF_SRA1 %>%
    mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
-    ggplot(aes(Cortisol, color=Race)) + 
+    ggplot(aes(Income7, color=Race)) + 
+           geom_freqpoly(binwidth=2000, size = 1.5) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2"))
+```
+
+## For Cortisol at wave 5:
+
+```{r, include=TRUE}
+DF_SRA1 %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(Cort5, color=Race)) + 
            geom_freqpoly(binwidth=0.5, size = 1.5) + 
            theme_few() + 
            scale_color_manual(values=wes_palette(name="Moonrise2")) + 
            scale_fill_manual(values=wes_palette(name="Darjeeling2"))
 ```
 
-## How does Cortisol change over time?
+## For Cortisol at wave 7:
+
 ```{r, include=TRUE}
-DFS %>%
+DF_SRA1 %>%
    mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
-    ggplot(aes(Time, Cortisol)) + 
-           stat_summary(fun.y=mean, geom="line", size = 2, aes(color=Race)) + 
+    ggplot(aes(Cort7, color=Race)) + 
+           geom_freqpoly(binwidth=0.5, size = 1.5) + 
            theme_few() + 
            scale_color_manual(values=wes_palette(name="Moonrise2")) + 
            scale_fill_manual(values=wes_palette(name="Darjeeling2"))
+```
+
+## For education:
+
+```{r, include=TRUE}
+DF_SRA1 %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(Education, color=Race)) + 
+           geom_histogram(size = 1.5) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2"))
+```
+
+
+## How does Cortisol change over time?
+
+## At Wave 5:
+```{r, include=TRUE}
+DF_SRA1 %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(MTime5, Cort5)) + 
+           geom_smooth(aes(color=Race, fill=Race), size=2) + 
+           #geom_point(aes(color=Race)) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2")) + 
+           labs(title = "Cortisol Over Time by Race", x = "Time", y = "Cortisol")
+```
+
+## At Wave 7:
+```{r, include=TRUE}
+DF_SRA1 %>%
+   mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+    ggplot(aes(MTime7, Cort7)) + 
+           geom_smooth(aes(color=Race, fill=Race), size=2) + 
+           #geom_point(aes(color=Race)) + 
+           theme_few() + 
+           scale_color_manual(values=wes_palette(name="Moonrise2")) + 
+           scale_fill_manual(values=wes_palette(name="Darjeeling2")) + 
+           labs(title = "Cortisol Over Time by Race", x = "Time", y = "Cortisol")
+```
+
+
+## What does income look like by Race?
+```{r, include=TRUE}
+Mean1<- DF_SRA1 %>%
+  mutate(Race=factor(Race, levels=c(0:1), labels=c("White", "Black"))) %>%
+  select(Race, Income5) %>%
+  group_by(Race) %>%
+    summarize(N = n(), mean = mean(Income5, na.rm=TRUE), sd = sd(Income5, na.rm=TRUE))
+kable(Mean1)
+  
 ```
 
