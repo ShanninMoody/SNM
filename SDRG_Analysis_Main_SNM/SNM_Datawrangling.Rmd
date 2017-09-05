@@ -5,44 +5,52 @@ date: August 28, 2017
 output: html_document
 ---
 
-```{r, load dataset}
-# read in data set, make sure pacckage 'haven' is loaded
-Dataset_08282017_SDRG_SNMThesis <- read_sav("~/GITHUB/DataSets/Databases_SDRG/Dataset_08282017_SDRG_SNMThesis.sav") 
 
+#new Data
+
+```{r}
+SDRG_9_5_2017 <- read_sav("~/Google Drive/Collaborations/Analysis/SDRG/SDRG_9_5_2017.sav")
 ```
 
 ```{r}
-DF<- Dataset_08282017_SDRG_SNMThesis
-```
-
-```{r, set up small dataset}
-DF_small<- DF %>%
-            select(ID = DMID, Race = TRACE5, Sex = TGEND5, Cortisol = TDPGML7, Time = tubenum7)
-```
-
-```{r, windsorize}
-m1<-mean(DF_small$Cortisol, na.rm=TRUE) + 3*sd(DF_small$Cortisol, na.rm=TRUE)
-DF_small$Cortisol[DF_small$Cortisol>m1]<-m1
+DF_SRA<-SDRG_9_5_2017
 ```
 
 ```{r}
-DFS<-DF_small
-DFS$Time[DFS$Time == 5]<-1
-DFS$Time[DFS$Time == 9]<-1
-DFS$Time[DFS$Time == 6]<-2
-DFS$Time[DFS$Time == 10]<-2
-DFS$Time[DFS$Time == 7]<-3
-DFS$Time[DFS$Time == 11]<-3
-DFS$Time[DFS$Time == 8]<-4
-DFS$Time[DFS$Time == 12]<-4
+DF_SRA1 <- DF_SRA %>%
+  select(ID, DAY7, Day5, Race = RACE7, Sex = TGEND7, Time5 = TimeDay_Wave5, Time7 = TimeDay_Wave7, Age5 = TAGE5, Age7 = TAGE7, MTime5 = TDDTIM5R, MTime7 = TIMEOCM7, Cort5, Cort7, Education = TDEDEG7, Income7 = TDEINC7, Income5 = TDEINC5)
 
-DFS$Time
+
+logtrans<-function(x) {
+  trans <- log (x) 
+  return(trans)
+}
+
+DF_SRA1$Cort5 <- logtrans(DF_SRA1$Cort5)
+DF_SRA1$Cort7 <- logtrans(DF_SRA1$Cort7)
+
+DF_SRA1$Education[DF_SRA1$Education>=12]<-8
+
+DF_SRA1$CAGE5<-scale(DF_SRA1$Age5, center=TRUE, scale=FALSE)
+DF_SRA1$CIncome5<-scale(DF_SRA1$Income5, center=TRUE, scale=TRUE)
+DF_SRA1$CAGE7<-scale(DF_SRA1$Age7, center=TRUE, scale=FALSE)
+DF_SRA1$CIncome7<-scale(DF_SRA1$Income7, center=TRUE, scale=TRUE)
+DF_SRA1$MTime5<-as.numeric(DF_SRA1$MTime5)
+DF_SRA1$MTime7<-as.numeric(DF_SRA1$MTime7)
+DF_SRA1$MTime5<-DF_SRA1$MTime5-25200
+DF_SRA1$MTime7<-DF_SRA1$MTime7-25200
+DF_SRA1$MTime5<-DF_SRA1$MTime5/60
+DF_SRA1$MTime7<-DF_SRA1$MTime7/60
+DF_SRA1$MTime5
+DF_SRA1$MTime5_sq<-DF_SRA1$MTime5*DF_SRA1$MTime5
+DF_SRA1$MTime7_sq<-DF_SRA1$MTime7*DF_SRA1$MTime7
+DF_SRA1$Time5_sq<-DF_SRA1$Time5*DF_SRA1$Time5
+DF_SRA1$Time7_sq<-DF_SRA1$Time7*DF_SRA1$Time7
 ```
 
 
-
-
 ```{r}
-DF_small$Cortisol<-log(DF_small$Cortisol)
+rm(DF_SRA)
+rm(SDRG_9_5_2017)
 ```
 
