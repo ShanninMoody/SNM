@@ -6,8 +6,6 @@ output: html_document
 ---
 
 
-#new Data
-
 ```{r}
 SDRG_9_5_2017 <- read_sav("E:/Desktop/W5_W7merged_variables\ of\ interest.sav")
 ```
@@ -35,12 +33,15 @@ DF_SRA1$CAGE5<-scale(DF_SRA1$Age5, center=TRUE, scale=FALSE)
 DF_SRA1$CIncome5<-scale(DF_SRA1$Income5, center=TRUE, scale=TRUE)
 DF_SRA1$CAGE7<-scale(DF_SRA1$Age7, center=TRUE, scale=FALSE)
 DF_SRA1$CIncome7<-scale(DF_SRA1$Income7, center=TRUE, scale=TRUE)
+
 DF_SRA1$MTime5<-as.numeric(DF_SRA1$MTime5)/86400
 DF_SRA1$MTime7<-as.numeric(DF_SRA1$MTime7)/86440
 #DF_SRA1$MTime5<-DF_SRA1$MTime5-25200
 #DF_SRA1$MTime7<-DF_SRA1$MTime7-25200
 #DF_SRA1$MTime5<-DF_SRA1$MTime5/60
 #DF_SRA1$MTime7<-DF_SRA1$MTime7/60
+
+
 DF_SRA1$MTime5_sq<-DF_SRA1$MTime5*DF_SRA1$MTime5
 DF_SRA1$MTime7_sq<-DF_SRA1$MTime7*DF_SRA1$MTime7
 DF_SRA1$Time5_sq<-DF_SRA1$Time5*DF_SRA1$Time5

@@ -52,3 +52,20 @@ sjt.lmer(M10,
 
 ```
 
+## What about wave 5 predicting wave 7?
+
+```{r, include=TRUE}
+M11<-lmer(Cort7 ~ Cort5*Race + Income5 + Sex + CAGE5 + Race + (Cort5|ID),
+		data=DF_SRA1)
+
+sjt.lmer(M11, 
+         show.icc=TRUE, 
+         show.re.var = FALSE, 
+         emph.p = TRUE,
+         show.aic = TRUE,
+         show.aicc = TRUE,
+         show.header = TRUE,
+         show.ci=TRUE,
+         string.dv = "Cortisol")
+```
+
