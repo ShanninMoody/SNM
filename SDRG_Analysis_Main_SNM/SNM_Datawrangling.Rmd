@@ -6,8 +6,6 @@ output: html_document
 ---
 
 
-#new Data
-
 ```{r}
 SDRG_9_5_2017 <- read_sav("~/Google Drive/Collaborations/Analysis/SDRG/SDRG_9_5_2017.sav")
 ```
@@ -41,7 +39,6 @@ DF_SRA1$MTime5<-DF_SRA1$MTime5-25200
 DF_SRA1$MTime7<-DF_SRA1$MTime7-25200
 DF_SRA1$MTime5<-DF_SRA1$MTime5/60
 DF_SRA1$MTime7<-DF_SRA1$MTime7/60
-DF_SRA1$MTime5
 DF_SRA1$MTime5_sq<-DF_SRA1$MTime5*DF_SRA1$MTime5
 DF_SRA1$MTime7_sq<-DF_SRA1$MTime7*DF_SRA1$MTime7
 DF_SRA1$Time5_sq<-DF_SRA1$Time5*DF_SRA1$Time5
